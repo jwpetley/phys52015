@@ -1,6 +1,6 @@
 CC = icc
 
-CFLAGS = -I. -std=c11 -O2 -no-vec
+CFLAGS = -I. -std=c11 -O2 -vec
 LIBS = -lm
 
 DEPS = proto.h
