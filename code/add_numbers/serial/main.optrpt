@@ -1,0 +1,101 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+Intel(R) C Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 18.0.2.199 Build 20180210
+
+Compiler options: -I. -D_GNU_SOURCE -std=c11 -O2 -qopt-report=5 -c -o main.o
+
+    Report from: Interprocedural optimizations [ipo]
+
+  WHOLE PROGRAM (SAFE) [EITHER METHOD]: false
+  WHOLE PROGRAM (SEEN) [TABLE METHOD]: false
+  WHOLE PROGRAM (READ) [OBJECT READER METHOD]: false
+
+INLINING OPTION VALUES:
+  -inline-factor: 100
+  -inline-min-size: 30
+  -inline-max-size: 230
+  -inline-max-total-size: 2000
+  -inline-max-per-routine: 10000
+  -inline-max-per-compile: 500000
+
+In the inlining report below:
+   "sz" refers to the "size" of the routine. The smaller a routine's size,
+      the more likely it is to be inlined.
+   "isz" refers to the "inlined size" of the routine. This is the amount
+      the calling routine will grow if the called routine is inlined into it.
+      The compiler generally limits the amount a routine can grow by having
+      routines inlined into it.
+
+Begin optimization report for: main(int, char **)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (main(int, char **)) [1/2=50.0%] main.c(21,34)
+  -> EXTERN: (25,5) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (26,5) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> INLINE (MANUAL): (29,15) atoi(const char *) (isz = 4) (sz = 11)
+    -> EXTERN: /usr/include/stdlib.h:(280,16) strtol(const char *__restrict__, char **__restrict__, int)
+  -> EXTERN: (30,20) malloc(size_t)
+  -> EXTERN: (33,26) drand48(void)
+  -> EXTERN: (37,3) add_numbers(int, float *)
+  -> EXTERN: (39,3) free(void *)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at main.c(31,3)
+   remark #15389: vectorization support: reference numbers[i] has unaligned access   [ main.c(33,5) ]
+   remark #15381: vectorization support: unaligned access used inside loop body
+   remark #15305: vectorization support: vector length 2
+   remark #15309: vectorization support: normalized vectorization overhead 0.060
+   remark #15418: vectorization support: number of FP down converts: double precision to single precision 1   [ main.c(33,5) ]
+   remark #15300: LOOP WAS VECTORIZED
+   remark #15451: unmasked unaligned unit stride stores: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 110 
+   remark #15477: vector cost: 41.500 
+   remark #15478: estimated potential speedup: 2.640 
+   remark #15482: vectorized math library calls: 1 
+   remark #15487: type converts: 1 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at main.c(31,3)
+<Remainder loop for vectorization>
+LOOP END
+
+    Report from: Code generation optimizations [cg]
+
+main.c(21,34):remark #34051: REGISTER ALLOCATION : [main] main.c:21
+
+    Hardware registers
+        Reserved     :    2[ rsp rip]
+        Available    :   39[ rax rdx rcx rbx rbp rsi rdi r8-r15 mm0-mm7 zmm0-zmm15]
+        Callee-save  :    6[ rbx rbp r12-r15]
+        Assigned     :   11[ rax rdx rbx rsi rdi r12-r15 zmm0-zmm1]
+        
+    Routine temporaries
+        Total         :      54
+            Global    :      22
+            Local     :      32
+        Regenerable   :      11
+        Spilled       :       5
+        
+    Routine stack
+        Variables     :       4 bytes*
+            Reads     :       2 [2.00e+00 ~ 2.6%]
+            Writes    :       2 [2.00e+00 ~ 2.6%]
+        Spills        :      16 bytes*
+            Reads     :       3 [8.88e-01 ~ 1.2%]
+            Writes    :       3 [8.88e-01 ~ 1.2%]
+    
+    Notes
+    
+        *Non-overlapping variables and spills may share stack space,
+         so the total stack size might be less than this.
+    
+
+===========================================================================

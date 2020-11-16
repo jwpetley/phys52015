@@ -80,5 +80,12 @@ void blur_mean(struct Image input, int n, struct Image *output) {
   printf("Blurring loop took:%6f\n",
          ((double)end - start) / CLOCKS_PER_SEC);
 
+FILE * fp;
+  
+   /* open the file for writing*/
+   fp = fopen ("runtime.txt","a");
+fprintf (fp,"%d ,%6f\n",n, ((double)end-start)/CLOCKS_PER_SEC );
+ fclose(fp);
+
   printf("Done\n");
 }

@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <time.h>
 
+
+
 void free_image(struct Image *image)
 {
   free(image->r);
@@ -26,12 +28,14 @@ int main(int argc, char *argv[]) {
   }
   read_ppm(argv[1], &myimage);
 
-  int n = 1;
+for ( int n = 1;n<11;n++){
 
-  blur_mean(myimage, n, &output);
+ 	blur_mean(myimage, n, &output);
 
-  write_ppm(argv[2], output);
+  	write_ppm(argv[2], output);
+}
   free_image(&myimage);
-  free_image(&output);
+ free_image(&output);
+
   return 0;
 }
